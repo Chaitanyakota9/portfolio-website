@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Github, Mail, Linkedin, ExternalLink, Star } from "lucide-react";
 import photo from '../me.jpeg';
+import aiLabelerImage from '../ai-labeler.jpg.webp';
+import licensePlateImage from '../license-plate.png';
+import spamDetectionImage from '../spam.jpg';
 
 // Quick utility components
 const Container = ({ children }) => (
@@ -34,16 +37,19 @@ export default function Portfolio() {
       title: "AI-Image-Labeler (YOLOv8 + SAM)",
       link: "https://github.com/Chaitanyakota9/AI-Image-Labeler",
       tags: ["Computer Vision", "Auto-Labeling", "YOLOv8", "SAM"],
+      image: aiLabelerImage,
     },
     {
       title: "License Plate Detection (YOLOv8 + EasyOCR)",
       link: "https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr",
       tags: ["Object Detection", "OCR", "EasyOCR"],
+      image: licensePlateImage,
     },
     {
       title: "Spam Detection using SVM (RBF)",
       link: "https://github.com/Chaitanyakota9/spam-detection-using-SVM-RBF-kernel",
       tags: ["NLP", "SVM", "Text Classification"],
+      image: spamDetectionImage,
     },
   ];
 
@@ -184,7 +190,13 @@ export default function Portfolio() {
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
                 className="group relative overflow-hidden rounded-2xl border p-4 sm:p-5 transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800"
               >
-                <div className="mb-4 h-32 sm:h-36 w-full rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700" />
+                <div className="mb-4 h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700">
+                  <img 
+                    src={p.image} 
+                    alt={p.title}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
                 <h3 className="mb-2 text-base sm:text-lg font-bold">{p.title}</h3>
                 <div className="mb-4 flex flex-wrap gap-1 sm:gap-2">
                   {p.tags.map((t) => (
