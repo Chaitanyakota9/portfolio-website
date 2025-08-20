@@ -4,7 +4,7 @@ import { ArrowRight, Github, Mail, Linkedin, ExternalLink, Star } from "lucide-r
 import photo from '../me.jpeg';
 import aiLabelerImage from '../ai-labeler.jpg.webp';
 import licensePlateImage from '../license-plate.png';
-import spamDetectionImage from '../spam.jpg';
+import hutaoBotImage from '../chatbot.jpg';
 
 // Quick utility components
 const Container = ({ children }) => (
@@ -35,26 +35,29 @@ export default function Portfolio() {
   const projects = [
     {
       title: "AI-Image-Labeler (YOLOv8 + SAM)",
-      link: "https://github.com/Chaitanyakota9/AI-Image-Labeler",
+      githubLink: "https://github.com/Chaitanyakota9/AI-Image-Labeler",
+      demoLink: null,
       tags: ["Computer Vision", "Auto-Labeling", "YOLOv8", "SAM"],
       image: aiLabelerImage,
     },
     {
       title: "License Plate Detection (YOLOv8 + EasyOCR)",
-      link: "https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr",
+      githubLink: "https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr",
+      demoLink: null,
       tags: ["Object Detection", "OCR", "EasyOCR"],
       image: licensePlateImage,
     },
     {
-      title: "Spam Detection using SVM (RBF)",
-      link: "https://github.com/Chaitanyakota9/spam-detection-using-SVM-RBF-kernel",
-      tags: ["NLP", "SVM", "Text Classification"],
-      image: spamDetectionImage,
+      title: "Hutao Chatbot 💀✨",
+      githubLink: "https://github.com/Chaitanyakota9/Hutao-chatbot",
+      demoLink: "https://hutao-chatbot-e6rw.onrender.com",
+      tags: ["Chatbot", "AI", "Web Development"],
+      image: hutaoBotImage,
     },
   ];
 
   const tools = [
-    "Python", "PyTorch", "TensorFlow", "FastAPI", "VS Code", "Docker", "AWS", "PostgreSQL", "MongoDB", "n8n",
+    "Python", "PyTorch", "TensorFlow", "FastAPI", "Django", "VS Code", "Docker", "AWS", "PostgreSQL", "MongoDB", "n8n", "Render", "Vercel",
   ];
 
   return (
@@ -179,11 +182,8 @@ export default function Portfolio() {
           <SectionTitle kicker="Projects" title="Showcase" />
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((p, idx) => (
-              <motion.a
+              <motion.div
                 key={p.title}
-                href={p.link}
-                target="_blank"
-                rel="noreferrer"
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -203,10 +203,27 @@ export default function Portfolio() {
                     <Tag key={t}>{t}</Tag>
                   ))}
                 </div>
-                <div className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500">
-                  View on GitHub <ArrowRight size={16} />
+                <div className="flex gap-2">
+                  {p.demoLink && (
+                    <a
+                      href={p.demoLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
+                    >
+                      View Demo <ExternalLink size={16} />
+                    </a>
+                  )}
+                  <a
+                    href={p.githubLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
+                  >
+                    View on GitHub <ArrowRight size={16} />
+                  </a>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </div>
           <div className="mt-8 flex justify-center">
