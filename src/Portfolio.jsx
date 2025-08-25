@@ -5,6 +5,7 @@ import photo from '../me.jpeg';
 import aiLabelerImage from '../ai-labeler.jpg.webp';
 import licensePlateImage from '../license-plate.png';
 import hutaoBotImage from '../chatbot.jpg';
+import emailExpenseAutoImage from '../email expense auto.png';
 
 // Quick utility components
 const Container = ({ children }) => (
@@ -58,6 +59,16 @@ export default function Portfolio() {
 
   const tools = [
     "Python", "PyTorch", "TensorFlow", "FastAPI", "Django", "VS Code", "Docker", "AWS", "PostgreSQL", "MongoDB", "n8n", "Render", "Vercel",
+  ];
+
+  const automations = [
+    {
+      title: "Email Expense Auto-Processor",
+      description: "Automated expense tracking and categorization from email receipts using n8n workflows",
+      tags: ["n8n", "Automation", "Email Processing", "Expense Tracking"],
+      image: emailExpenseAutoImage,
+      template: "My workflow 5.json",
+    },
   ];
 
   return (
@@ -230,6 +241,48 @@ export default function Portfolio() {
             <a href="https://github.com/Chaitanyakota9" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm transition hover:bg-neutral-50 dark:hover:bg-neutral-900">
               <Github size={18} /> View all projects
             </a>
+          </div>
+        </Container>
+      </section>
+
+      {/* Automations */}
+      <section className="py-12 sm:py-16 lg:py-24">
+        <Container>
+          <SectionTitle kicker="Smart Automations" title="Workflow Magic" />
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {automations.map((a, idx) => (
+              <motion.div
+                key={a.title}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className="group relative overflow-hidden rounded-2xl border p-4 sm:p-5 transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800"
+              >
+                <div className="mb-4 h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700">
+                  <img 
+                    src={a.image} 
+                    alt={a.title}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="mb-2 text-base sm:text-lg font-bold">{a.title}</h3>
+                <p className="mb-3 text-sm opacity-80">{a.description}</p>
+                <div className="mb-4 flex flex-wrap gap-1 sm:gap-2">
+                  {a.tags.map((t) => (
+                    <Tag key={t}>{t}</Tag>
+                  ))}
+                </div>
+                <a
+                  href={a.template}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
+                >
+                  Get Template <ArrowRight size={16} />
+                </a>
+              </motion.div>
+            ))}
           </div>
         </Container>
       </section>

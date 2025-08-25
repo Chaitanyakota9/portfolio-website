@@ -1,0 +1,436 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "customEmailConfig": "=[\"UNSEEN\"]",
+          "forceReconnect": 60,
+          "trackLastMessageId": true
+        }
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        192,
+        0
+      ],
+      "id": "7fa7e18a-c6cf-4b52-bc0c-e89854cb10f9",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "VEu70yoGrfc3CxBB",
+          "name": "IMAP account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an information extractor. Read the email subject and body, then return a single JSON object with:\n- amount (number)\n- currency (string, default \"EUR\" if missing)\n- category (short string; guess from text, default \"misc\")\n- note (rest of the text, optional)\n- date (YYYY-MM-DD; if missing use today's date)\n- source_subject (copy of the subject)\n\nSTRICT RULES:\n- Output ONLY JSON. No prose.\n- amount must be a number (convert \"10,50\" -> 10.50).\n- If currency symbol (€, eur), normalize to \"EUR\".\n\nSubject:\n{{ $json.subject || '' }}\n\nBody:\n{{ $json.text || $json.textPlain || $json.body || '' }}\n",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an information extractor. Read the email subject and body, then return a single JSON object with:\n- amount (number)\n- currency (string, default \"EUR\" if missing)\n- category (short string; guess from text, default \"misc\")\n- note (rest of the text, optional)\n- date (YYYY-MM-DD; if missing use today's date)\n- source_subject (copy of the subject)\n\nSTRICT RULES:\n- Output ONLY JSON. No prose.\n- amount must be a number (convert \"10,50\" -> 10.50).\n- If currency symbol (€, eur), normalize to \"EUR\".\n\nSubject:\n{{ $json.subject || '' }}\n\nBody:\n{{ $json.text || $json.textPlain || $json.body || '' }}\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        384,
+        -144
+      ],
+      "id": "002c2c96-125d-4348-b6db-f46e6a0e5cc7",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "chatgpt-4o-latest"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        192
+      ],
+      "id": "1f660c95-bcb1-442e-91a8-89886d07f9b7",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "jjNHn3uXXhc437z7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "917507a4-71d3-4c6e-a1c1-6905861504b4",
+              "name": "date",
+              "value": "={{ JSON.parse($json.text).date }}",
+              "type": "string"
+            },
+            {
+              "id": "91097c77-4a1b-49a4-8cbc-37377a227466",
+              "name": "amount",
+              "value": "={{ JSON.parse($json.text).amount }}",
+              "type": "number"
+            },
+            {
+              "id": "48171a69-7b41-4004-ba55-3685a905c417",
+              "name": "currency",
+              "value": "={{ JSON.parse($json.text).currency }}\n",
+              "type": "string"
+            },
+            {
+              "id": "c9f382bd-6cb0-40e0-bde9-bd3d6ce7d354",
+              "name": "category",
+              "value": "={{ JSON.parse($json.text).category }}\n",
+              "type": "string"
+            },
+            {
+              "id": "a7ab075c-c612-41d5-ae17-d264e8dcdb94",
+              "name": "note",
+              "value": "={{ JSON.parse($json.text).note }}",
+              "type": "string"
+            },
+            {
+              "id": "c5d1c010-3c8b-4c0c-a363-8afb01ff7ae4",
+              "name": "source_subject",
+              "value": "={{ $json.subject || \"(no subject)\" }}",
+              "type": "string"
+            },
+            {
+              "id": "e5b609b6-f3ff-4dd2-8db3-1f524efc76d9",
+              "name": "logged_at",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        48
+      ],
+      "id": "b5e3bc4f-fae6-4eb9-8db3-85f867869d49",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg",
+          "mode": "list",
+          "cachedResultName": "Expenses Logger",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "UNFORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          },
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        656,
+        48
+      ],
+      "id": "9b86507e-65e6-4937-b397-12b28b64ce10",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HHQXTmCp7mnV6koW",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "gamingparadox2003@gmail.com",
+        "toEmail": "chaitanya.kota24@gmail.com",
+        "subject": "=Previous expenses total (after this entry): {{ $item(0).$node[\"Sum Previous\"].json.previous_expenses }} EUR\n\n",
+        "html": "=Previous expenses total (before this entry): {{ $item(0).$node[\"Sum Previous\"].json.previous_expenses }} EUR\n...\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        992,
+        80
+      ],
+      "id": "8627063d-52f5-495f-bae5-1fd2ebb80f86",
+      "name": "Send email",
+      "webhookId": "ac09c2e2-125c-4ba9-a5b9-d26b9272daf4",
+      "credentials": {
+        "smtp": {
+          "id": "oRJzF6zhUWEOcoZ2",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// amount for the new entry (from Edit Fields)\nconst amount =\n  Number((($node[\"Edit Fields\"]?.json?.amount ?? \"0\") + \"\").replace(\",\", \".\")) || 0;\n\n// rows coming from **Get row(s) in sheet** → available as `items`\nconst rows = items;\n\n// pick the LAST row if any\nconst last = rows.length ? rows[rows.length - 1].json : null;\n\n// helper: find previous total even if the header has spaces/newlines/different label\nfunction prevFrom(obj) {\n  if (!obj) return 0;\n  const norm = k => k.replace(/\\s+/g, \"\").toLowerCase();\n  const key = Object.keys(obj).find(k =>\n    [\"previous_expenses\", \"previousexpenses\", \"runningtotal\", \"total\"].includes(norm(k))\n  );\n  const raw = key ? obj[key] : 0;\n  return Number(String(raw).replace(/[^\\d.-]/g, \"\")) || 0;\n}\n\nconst prevRunning = prevFrom(last);\n\n// first entry → amount; else → prev + amount\nconst previous_expenses = (last ? prevRunning : 0) + amount;\n\nreturn [{ json: { previous_expenses, prev_running: prevRunning, amount } }];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        288
+      ],
+      "id": "39f22cd5-e8d5-4ff7-b7c4-32284ddf13d6",
+      "name": "Sum Previous"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg",
+          "mode": "list",
+          "cachedResultName": "Expenses Logger",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1taOgAZ3IT3mMfxq1tLAO0WIqbtCvSfz7omkNZQ8KFTg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{$now}}",
+            "amount": "={{$node[\"Edit Fields\"].json.amount}}",
+            "currency": "={{$node[\"Edit Fields\"].json.currency}}\n",
+            "category": "={{$node[\"Edit Fields\"].json.category}}\n",
+            "note": "={{$node[\"Edit Fields\"].json.note}}\n",
+            "source_subject": "={{$node[\"Edit Fields\"].json.source_subject}}\n",
+            "logged_at": "={{$now}}\n",
+            "previous_expenses": "={{$node[\"Sum Previous\"].json.previous_expenses}}\n"
+          },
+          "matchingColumns": [
+            "logged_at"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_subject",
+              "displayName": "source_subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "logged_at",
+              "displayName": "logged_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "previous_expenses",
+              "displayName": "previous_expenses",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        272
+      ],
+      "id": "adccc630-afc8-4ed4-a12b-ed2539a63059",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HHQXTmCp7mnV6koW",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Sum Previous",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sum Previous": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a3753df8-56c5-4190-a387-e62adc3155c4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a2c2a90d85b80dcaa0d92e43e82e5eb8a1618ddbc9b228238c1e40b439450fd"
+  },
+  "id": "00LZFREsV5IKOwol",
+  "tags": []
+}
