@@ -6,6 +6,7 @@ import aiLabelerImage from '../ai-labeler.jpg.webp';
 import licensePlateImage from '../license-plate.png';
 import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
+import emailSummarizerImage from '../email summarizer.png';
 
 // Quick utility components
 const Container = ({ children }) => (
@@ -62,6 +63,13 @@ export default function Portfolio() {
   ];
 
   const automations = [
+    {
+      title: "AI Email Assistant",
+      description: "Intelligent email processing with OpenAI GPT-4 analysis, automatic task extraction, and smart reply generation",
+      tags: ["n8n", "AI", "OpenAI GPT-4", "Email Automation", "Task Management"],
+      image: emailSummarizerImage,
+      template: "My workflow 3.json",
+    },
     {
       title: "Email Expense Auto-Processor",
       description: "Automated expense tracking and categorization from email receipts using n8n workflows",
