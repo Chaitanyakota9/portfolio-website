@@ -1,0 +1,328 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        -672,
+        -144
+      ],
+      "id": "6d4e833a-6e8f-4f98-84cb-86b26e80e0d2",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "VEu70yoGrfc3CxBB",
+          "name": "IMAP account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an email/chat assistant.\n\nInput:\nSubject: {{ $json.subject }}\nFrom: {{ $json.from }}\nBody:\n{{ $json.body }}\n\nYour tasks:\n1. Summarize the message in 2–3 sentences.\n2. Extract todos as an array of objects with: \n   - action (string) \n   - deadline (YYYY-MM-DD or null if not mentioned) \n   - priority (low|medium|high).\n3. Generate a short polite reply draft (max 100 words).\n\nOutput:\nReturn ONLY valid JSON. \nDo not include markdown, code fences, or any extra characters. \nDo not prefix values with \"=\".\n\nSchema:\n{\n  \"summary\": \"string\",\n  \"tasks\": [\n    {\n      \"action\": \"string\",\n      \"deadline\": \"string|null\",\n      \"priority\": \"low|medium|high\"\n    }\n  ],\n  \"reply_draft\": \"string\"\n}\n\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -208,
+        -64
+      ],
+      "id": "ae3ce9b0-571d-47ca-bfd6-d7d06a2e8a3b",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "chatgpt-4o-latest"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -336,
+        192
+      ],
+      "id": "3d7c9f07-e960-4136-9d4b-a4cc7902ae3e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "jjNHn3uXXhc437z7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13DeRSqusey4jNUOfjGjARgml1ia0ukq3_cgbz33ZmPg",
+          "mode": "list",
+          "cachedResultName": "inbox_assistant",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DeRSqusey4jNUOfjGjARgml1ia0ukq3_cgbz33ZmPg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DeRSqusey4jNUOfjGjARgml1ia0ukq3_cgbz33ZmPg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now.toISO() }}",
+            "from": "=={{ \"'\" + ($items(\"Prep Body\")[0].json.from || \"-\") }}",
+            "subject": "=={{ \"'\" + ($items(\"Prep Body\")[0].json.subject || \"(no subject)\") }}",
+            "summary": "=={{ \"'\" + $json.summary }}",
+            "tasks_json": "=={{ \"'\" + JSON.stringify($json.tasks || []) }}",
+            " reply_draft": "=={{ \"'\" + $json.reply_draft }}"
+          },
+          "matchingColumns": [
+            "subject"
+          ],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tasks_json",
+              "displayName": "tasks_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " reply_draft",
+              "displayName": " reply_draft",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        -64
+      ],
+      "id": "0a382531-c8b6-4439-90f5-6435edf20915",
+      "name": "Append row in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HHQXTmCp7mnV6koW",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.textPlain || $json.text || $json.textHtml || '';\nlet body = raw;\n\n// If only html available, strip tags\nif (!body && $json.textHtml) {\n  body = $json.textHtml.replace(/<[^>]*>/g, '\\n');\n}\n\n// Clean + truncate\nbody = body.replace(/\\r/g,'').trim();\nconst maxChars = 8000;\nif (body.length > maxChars) {\n  body = body.slice(0, maxChars) + \"\\n...[trimmed]\";\n}\n\n// Clean sender (extract email address if present)\nconst fromRaw = $json.from || '';\nconst match = fromRaw.match(/<([^>]+)>/);\nconst fromEmail = match ? match[1] : fromRaw;\n\nreturn [{\n  json: {\n    from: fromEmail || '-',\n    subject: $json.subject || '(no subject)',\n    body\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        -64
+      ],
+      "id": "4aa7118d-a9e1-40d6-8935-85d9359bb46d",
+      "name": "Prep Body"
+    },
+    {
+      "parameters": {
+        "jsCode": "let raw = $json.text || '';\nraw = raw.replace(/^```(json)?/i, '').replace(/```$/i, '').trim();\n\n// remove any accidental leading \"=\" from values\nraw = raw.replace(/=\\s*/g, '');\n\nlet parsed = {};\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  parsed = {\n    summary: \"Parse failed\",\n    tasks: [],\n    reply_draft: \"Please resend with proper details.\"\n  };\n}\n\nreturn [{ json: parsed }];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -64
+      ],
+      "id": "b50dff94-65bb-4330-8eea-262603326b07",
+      "name": "Parse LLM JSON"
+    },
+    {
+      "parameters": {
+        "fromEmail": "gamingparadox2003@gmail.com",
+        "toEmail": "chaitanya.kota24@gmail.com",
+        "subject": "=AI Brief: {{$items(\"Prep Body\")[0].json.subject || \"(no subject)\"}}",
+        "html": "=<p><b>Subject:</b> {{$items(\"Prep Body\")[0].json.subject || \"(no subject)\"}}</p>\n<p><b>From:</b> {{$items(\"Prep Body\")[0].json.from || \"-\"}}</p>\n\n<p><b>Summary</b><br>\n{{$items(\"Parse LLM JSON\")[0].json.summary || \"-\"}}</p>\n\n<p><b>Tasks</b><br>\n{{\n  ($items(\"Parse LLM JSON\")[0].json.tasks || [])\n    .map(t => `• ${t.action}${t.deadline ? ' (due ' + t.deadline + ')' : ''}${t.priority ? ' ['+t.priority+']' : ''}`)\n    .join('<br>') || '—'\n}}</p>\n\n<p><b>Reply draft</b><br>\n{{$items(\"Parse LLM JSON\")[0].json.reply_draft || \"-\"}}</p>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        752,
+        -64
+      ],
+      "id": "0c889c46-585b-4964-b23b-ab428246db8d",
+      "name": "Send email",
+      "webhookId": "1ae56ae3-edb7-4107-8779-87e3e9ee00f7",
+      "credentials": {
+        "smtp": {
+          "id": "oRJzF6zhUWEOcoZ2",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function txt(v) {\n  if (v === undefined || v === null) v = '';\n  v = String(v).replace(/[\\u0000-\\u001F]/g, ' ');\n\n  // If value starts with = + - @, strip it (don't prefix with = or ')\n  if (/^[\\s]*[=+\\-@]/.test(v)) {\n    v = v.replace(/^[\\s]*[=+\\-@]/, '');\n  }\n\n  return v.trim();\n}\n\nconst prep = $items('Prep Body')[0]?.json ?? {};\nconst llm  = $items('Parse LLM JSON')[0]?.json ?? {};\n\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    from: txt(prep.from || '-'),\n    subject: txt(prep.subject || '(no subject)'),\n    summary: txt(llm.summary || ''),\n    tasks_json: txt(JSON.stringify(llm.tasks || [])),\n    reply_draft: txt(llm.reply_draft || '')\n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        -64
+      ],
+      "id": "0d81b76d-0b7a-47e2-abec-cd303d379668",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Prep Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Parse LLM JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Body": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse LLM JSON": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5d601745-8916-477b-aa2a-e63adfdc302a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a2c2a90d85b80dcaa0d92e43e82e5eb8a1618ddbc9b228238c1e40b439450fd"
+  },
+  "id": "e773OgOKCnPNiajk",
+  "tags": []
+}
