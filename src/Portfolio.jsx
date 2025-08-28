@@ -68,14 +68,14 @@ export default function Portfolio() {
       description: "Intelligent email processing with OpenAI GPT-4 analysis, automatic task extraction, and smart reply generation",
       tags: ["n8n", "AI", "OpenAI GPT-4", "Email Automation", "Task Management"],
       image: emailSummarizerImage,
-      template: "My workflow 3.json",
+      template: "https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%203.json",
     },
     {
       title: "Email Expense Auto-Processor",
       description: "Automated expense tracking and categorization from email receipts using n8n workflows",
       tags: ["n8n", "Automation", "Email Processing", "Expense Tracking"],
       image: emailExpenseAutoImage,
-      template: "My workflow 5.json",
+      template: "https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%205.json",
     },
   ];
 
@@ -287,7 +287,7 @@ export default function Portfolio() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
                 >
-                  Get Template <ArrowRight size={16} />
+                  View Template <ExternalLink size={16} />
                 </a>
               </motion.div>
             ))}
