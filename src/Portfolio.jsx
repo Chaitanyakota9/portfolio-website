@@ -7,7 +7,7 @@ import licensePlateImage from '../license-plate.png';
 import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
 import emailSummarizerImage from '../email summarizer.png';
-import multimodalImage from '../multimodal.png';
+import multimodalImage from '../multimodel.png';
 
 // Utility components
 const Container = ({ children, className = "" }) => (
@@ -78,7 +78,7 @@ export default function Portfolio() {
       year: '2025',
       description: 'Character-based conversational AI with modern web interface.',
       technologies: 'NLP, Web Development, JavaScript',
-      impact: '500+ user interactions',
+      impact: 'Interactive character-based AI chatbot',
       githubLink: 'https://github.com/Chaitanyakota9/Hutao-chatbot',
       demoLink: 'https://hutao-chatbot-e6rw.onrender.com',
       image: hutaoBotImage
@@ -601,7 +601,11 @@ export default function Portfolio() {
                             href={project.githubLink}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 transition-colors"
+                            className={`inline-flex items-center gap-2 text-sm transition-colors duration-300 ${
+                              isDarkMode 
+                                ? 'text-neutral-100 hover:text-neutral-300' 
+                                : 'text-neutral-900 hover:text-neutral-600'
+                            }`}
                           >
                             GitHub <ExternalLink size={16} />
                           </a>
@@ -610,7 +614,11 @@ export default function Portfolio() {
                               href={project.demoLink}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 transition-colors"
+                              className={`inline-flex items-center gap-2 text-sm transition-colors duration-300 ${
+                                isDarkMode 
+                                  ? 'text-neutral-100 hover:text-neutral-300' 
+                                  : 'text-neutral-900 hover:text-neutral-600'
+                              }`}
                             >
                               Live Demo <ExternalLink size={16} />
                             </a>
