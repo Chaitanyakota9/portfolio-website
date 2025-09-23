@@ -7,6 +7,7 @@ import licensePlateImage from '../license-plate.png';
 import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
 import emailSummarizerImage from '../email summarizer.png';
+import multimodalImage from '../multimodal.png';
 
 // Utility components
 const Container = ({ children, className = "" }) => (
@@ -63,12 +64,24 @@ export default function Portfolio() {
       id: 'multimodal-ai-analyzer',
       title: 'Multimodal AI Analyzer',
       subtitle: 'Full-Stack AI Platform',
-      year: '2024',
-      description: 'Enterprise-grade AI platform with real-time image analysis, object detection, segmentation, and classification. Features comprehensive monitoring, CI/CD pipelines, and multi-model support including SAM, YOLO, and CLIP.',
-      technologies: 'FastAPI, React, TypeScript, SAM, YOLO, CLIP, PyTorch, Docker, Prometheus, Grafana, GitHub Actions',
+      year: '2025',
+      description: 'Enterprise-grade AI platform with real-time image analysis, object detection, segmentation, and classification. Features comprehensive monitoring, CI/CD pipelines, and multi-model support.',
+      technologies: 'FastAPI, React, TypeScript, PyTorch, Docker, Prometheus, Grafana, GitHub Actions, OpenCV, PostgreSQL',
       impact: 'Multi-model AI platform with enterprise monitoring and CI/CD',
       githubLink: 'https://github.com/Chaitanyakota9/multimodal-ai-analyzer',
-      image: aiLabelerImage
+      image: multimodalImage
+    },
+    {
+      id: 'chatbot',
+      title: 'Conversational AI',
+      subtitle: 'Natural Language Processing',
+      year: '2025',
+      description: 'Character-based conversational AI with modern web interface.',
+      technologies: 'NLP, Web Development, JavaScript',
+      impact: '500+ user interactions',
+      githubLink: 'https://github.com/Chaitanyakota9/Hutao-chatbot',
+      demoLink: 'https://hutao-chatbot-e6rw.onrender.com',
+      image: hutaoBotImage
     },
     {
       id: 'ai-labeler',
@@ -91,18 +104,6 @@ export default function Portfolio() {
       impact: '95% accuracy in traffic conditions',
       githubLink: 'https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr',
       image: licensePlateImage
-    },
-    {
-      id: 'chatbot',
-      title: 'Conversational AI',
-      subtitle: 'Natural Language Processing',
-      year: '2024',
-      description: 'Character-based conversational AI with modern web interface.',
-      technologies: 'NLP, Web Development, JavaScript',
-      impact: '500+ user interactions',
-      githubLink: 'https://github.com/Chaitanyakota9/Hutao-chatbot',
-      demoLink: 'https://hutao-chatbot-e6rw.onrender.com',
-      image: hutaoBotImage
     },
   ];
 
