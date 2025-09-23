@@ -80,7 +80,7 @@ export default function Portfolio() {
       technologies: 'NLP, Web Development, JavaScript',
       impact: 'Interactive character-based AI chatbot',
       githubLink: 'https://github.com/Chaitanyakota9/Hutao-chatbot',
-      demoLink: 'https://hutao-chatbot-e6rw.onrender.com',
+      demoLink: 'https://hutao-chatbot-e6rw.onrender.com/chatbot/',
       image: hutaoBotImage
     },
     {
