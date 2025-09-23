@@ -1,133 +1,88 @@
-# Chaitanya Kota - AI & Deep Learning Portfolio
+# Chaitanya Kota's AI & Deep Learning Portfolio
 
-A modern, responsive portfolio website showcasing my work in AI, Deep Learning, and Computer Vision.
+A modern, responsive portfolio showcasing AI and Deep Learning projects built with React, Vite, and Tailwind CSS.
 
-## 🚀 Features
+## 🚀 Quick Deploy with Docker
 
-- **Modern Design**: Clean, professional design with dark/light mode toggle
-- **Responsive**: Fully responsive across all devices
-- **Smooth Animations**: Powered by Framer Motion for engaging interactions
-- **Fast Performance**: Built with Vite for optimal development and build times
-- **SEO Optimized**: Proper meta tags and semantic HTML
+### Prerequisites
+- Docker installed on your system
+- Docker Compose installed
 
-## 🛠️ Tech Stack
+### Deployment Steps
 
-- **Frontend**: React 18, Vite
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Font**: Inter (Google Fonts)
+1. **Clone or navigate to the project directory**
+   ```bash
+   cd "cursor portfolio"
+   ```
 
-## 📦 Installation
+2. **Deploy using the automated script**
+   ```bash
+   ./deploy.sh
+   ```
 
-1. Clone the repository:
-```bash
-git clone <your-repo-url>
-cd chaitanya-portfolio
-```
+   Or manually with Docker Compose:
+   ```bash
+   docker-compose up --build -d
+   ```
 
-2. Install dependencies:
+3. **Access your portfolio**
+   - Open your browser and go to: http://localhost:3000
+
+### Docker Commands
+
+- **View logs**: `docker-compose logs -f`
+- **Stop the application**: `docker-compose down`
+- **Restart**: `docker-compose restart`
+- **Rebuild and restart**: `docker-compose up --build -d`
+
+## 🛠️ Development
+
+### Local Development
 ```bash
 npm install
-```
-
-3. Start the development server:
-```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:3000`
-
-## 🏗️ Build for Production
-
+### Build for Production
 ```bash
 npm run build
+npm run preview
 ```
-
-The built files will be in the `dist` folder.
 
 ## 📁 Project Structure
 
 ```
 ├── src/
-│   ├── App.jsx          # Main app component
-│   ├── Portfolio.jsx    # Portfolio component
+│   ├── App.jsx          # Main application component
+│   ├── Portfolio.jsx    # Portfolio content
 │   ├── main.jsx         # React entry point
 │   └── index.css        # Global styles
-├── photo.jpg            # Profile photo
-├── index.html           # HTML template
-├── package.json         # Dependencies and scripts
-├── vite.config.js       # Vite configuration
-├── tailwind.config.js   # Tailwind CSS configuration
-└── postcss.config.js    # PostCSS configuration
+├── Dockerfile           # Multi-stage Docker build
+├── docker-compose.yml   # Docker Compose configuration
+├── nginx.conf          # Nginx server configuration
+├── deploy.sh           # Automated deployment script
+└── package.json        # Dependencies and scripts
 ```
 
-## 🎨 Customization
+## 🐳 Docker Configuration
 
-### Personal Information
-Update the following in `src/Portfolio.jsx`:
-- Name and title
-- Email and social links
-- Projects and research papers
-- Skills and tools
+The project uses a multi-stage Docker build:
+1. **Builder stage**: Installs dependencies and builds the React app
+2. **Production stage**: Uses Nginx to serve the built static files
 
-### Styling
-- Colors: Modify the Tailwind classes (rose-500, fuchsia-600, etc.)
-- Layout: Adjust the Container and grid components
-- Animations: Customize Framer Motion animations
+### Features
+- ✅ Optimized production build
+- ✅ Nginx with gzip compression
+- ✅ Security headers
+- ✅ SPA routing support
+- ✅ Static asset caching
+- ✅ Health check endpoint
+- ✅ Automatic container restart
 
-### Photo
-Replace `photo.jpg` with your own profile photo. The image will automatically be styled with rounded corners and shadow effects.
+## 📝 License
 
-## 📱 Responsive Design
-
-The portfolio is fully responsive with breakpoints:
-- Mobile: < 640px
-- Tablet: 640px - 1024px
-- Desktop: > 1024px
-
-## 🌙 Dark Mode
-
-The portfolio includes a built-in dark/light mode toggle that:
-- Persists user preference
-- Smoothly transitions between themes
-- Automatically applies appropriate colors
-
-## 🚀 Deployment
-
-### Netlify
-1. Push your code to GitHub
-2. Connect your repository to Netlify
-3. Build command: `npm run build`
-4. Publish directory: `dist`
-
-### Vercel
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run: `vercel`
-3. Follow the prompts
-
-### GitHub Pages
-1. Add to package.json:
-```json
-{
-  "homepage": "https://yourusername.github.io/your-repo-name",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  }
-}
-```
-2. Install gh-pages: `npm install --save-dev gh-pages`
-3. Deploy: `npm run deploy`
-
-## 📄 License
-
-MIT License - feel free to use this template for your own portfolio!
-
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
+MIT License - feel free to use this portfolio as a template for your own projects!
 
 ---
 
-Built with ❤️ by Chaitanya Kota
+**Built with ❤️ using React, Vite, Tailwind CSS, and Docker**

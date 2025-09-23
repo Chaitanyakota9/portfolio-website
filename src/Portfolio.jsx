@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Mail, Linkedin, ExternalLink, Star, Download, MapPin } from "lucide-react";
+import { ArrowRight, Github, Mail, Linkedin, ExternalLink, Download, MapPin, Menu, X, Brain, Code, Database, Sun, Moon, Zap, Eye, Cpu, Globe, Server, Container as ContainerIcon, Terminal, Layers, MessageCircle } from "lucide-react";
 import photo from '../me.jpeg';
 import aiLabelerImage from '../ai-labeler.jpg.webp';
 import licensePlateImage from '../license-plate.png';
@@ -8,369 +8,882 @@ import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
 import emailSummarizerImage from '../email summarizer.png';
 
-// Quick utility components
-const Container = ({ children }) => (
-  <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>
+// Utility components
+const Container = ({ children, className = "" }) => (
+  <div className={`mx-auto max-w-6xl px-8 lg:px-12 ${className}`}>{children}</div>
 );
 
-const SectionTitle = ({ kicker, title }) => (
-  <div className="mb-8 text-center">
-    <div className="text-sm font-semibold tracking-widest text-rose-500">{kicker}</div>
-    <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-      {title}
-    </h2>
-  </div>
-);
-
-const Tag = ({ children }) => (
-  <span className="rounded-full border px-2 py-1 text-xs font-medium transition hover:-translate-y-0.5">
-    {children}
-  </span>
+const PageSection = ({ children, className = "", id }) => (
+  <section id={id} className={`py-20 lg:py-32 ${className}`}>{children}</section>
 );
 
 export default function Portfolio() {
-  const [dark, setDark] = useState(true);
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
+  const [currentSection, setCurrentSection] = useState('about');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Load dark mode preference from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme) {
+      setIsDarkMode(JSON.parse(savedTheme));
+    }
+  }, []);
+
+  // Save dark mode preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
+  // Scroll progress sensor
+  useEffect(() => {
+    const handleScroll = () => {
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        const scrollTop = mainContent.scrollTop;
+        const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        setScrollProgress(progress);
+      }
+    };
+
+    const mainContent = document.querySelector('main');
+    if (mainContent) {
+      mainContent.addEventListener('scroll', handleScroll);
+      return () => mainContent.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+  
   const projects = [
     {
-      title: "AI-Image-Labeler (YOLOv8 + SAM)",
-      githubLink: "https://github.com/Chaitanyakota9/AI-Image-Labeler",
-      demoLink: null,
-      tags: ["Computer Vision", "Auto-Labeling", "YOLOv8", "SAM"],
-      image: aiLabelerImage,
-      problem: "Manual annotation is time-consuming in CV datasets",
-      solution: "Built auto-labeling pipeline using YOLOv8 + SAM",
-      impact: "Reduced annotation time by 80% across 1k+ images",
+      id: 'multimodal-ai-analyzer',
+      title: 'Multimodal AI Analyzer',
+      subtitle: 'Full-Stack AI Platform',
+      year: '2024',
+      description: 'Enterprise-grade AI platform with real-time image analysis, object detection, segmentation, and classification. Features comprehensive monitoring, CI/CD pipelines, and multi-model support including SAM, YOLO, and CLIP.',
+      technologies: 'FastAPI, React, TypeScript, SAM, YOLO, CLIP, PyTorch, Docker, Prometheus, Grafana, GitHub Actions',
+      impact: 'Multi-model AI platform with enterprise monitoring and CI/CD',
+      githubLink: 'https://github.com/Chaitanyakota9/multimodal-ai-analyzer',
+      image: aiLabelerImage
     },
     {
-      title: "License Plate Detection (YOLOv8 + EasyOCR)",
-      githubLink: "https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr",
-      demoLink: null,
-      tags: ["Object Detection", "OCR", "EasyOCR"],
-      image: licensePlateImage,
-      problem: "Need for automated license plate recognition in traffic systems",
-      solution: "Developed YOLOv8-based detection with EasyOCR text extraction",
-      impact: "Achieved 95% accuracy in real-world traffic conditions",
+      id: 'ai-labeler',
+      title: 'AI Image Labeler',
+      subtitle: 'Computer Vision',
+      year: '2024',
+      description: 'Automated labeling pipeline using YOLOv8 + SAM reducing annotation time by 80% across 1k+ images.',
+      technologies: 'YOLOv8, SAM, Python, OpenCV',
+      impact: '80% time reduction, 1k+ images processed',
+      githubLink: 'https://github.com/Chaitanyakota9/AI-Image-Labeler',
+      image: aiLabelerImage
     },
     {
-      title: "Hutao Chatbot 💀✨",
-      githubLink: "https://github.com/Chaitanyakota9/Hutao-chatbot",
-      demoLink: "https://hutao-chatbot-e6rw.onrender.com",
-      tags: ["Chatbot", "AI", "Web Development"],
-      image: hutaoBotImage,
-      problem: "Creating engaging conversational AI experiences",
-      solution: "Built character-based chatbot with modern web interface",
-      impact: "Deployed live with 500+ user interactions",
+      id: 'license-plate',
+      title: 'License Plate Recognition',
+      subtitle: 'Object Detection & OCR',
+      year: '2024',
+      description: 'Real-time license plate detection and text extraction system achieving 95% accuracy.',
+      technologies: 'YOLOv8, EasyOCR, Python, Real-time Processing',
+      impact: '95% accuracy in traffic conditions',
+      githubLink: 'https://github.com/Chaitanyakota9/license-plate-detection-using-yolov8-and-easyocr',
+      image: licensePlateImage
+    },
+    {
+      id: 'chatbot',
+      title: 'Conversational AI',
+      subtitle: 'Natural Language Processing',
+      year: '2024',
+      description: 'Character-based conversational AI with modern web interface.',
+      technologies: 'NLP, Web Development, JavaScript',
+      impact: '500+ user interactions',
+      githubLink: 'https://github.com/Chaitanyakota9/Hutao-chatbot',
+      demoLink: 'https://hutao-chatbot-e6rw.onrender.com',
+      image: hutaoBotImage
     },
   ];
 
-  const tools = [
-    { category: "Core AI/ML", skills: ["Python", "PyTorch", "TensorFlow", "YOLOv5/v8", "OpenCV"] },
-    { category: "Backend & APIs", skills: ["FastAPI", "Django", "Node.js"] },
-    { category: "Databases", skills: ["PostgreSQL", "MongoDB"] },
-    { category: "DevOps/Deployment", skills: ["Docker", "AWS", "Vercel", "Render"] },
-    { category: "Automation & Tools", skills: ["n8n", "Git", "VS Code"] },
+  const research = [
+    {
+      year: '2024',
+      title: 'Action Recognition for Intelligent Surveillance using LRCN with Attention Mechanisms',
+      venue: 'IEEE Conference',
+      link: 'https://ieeexplore.ieee.org/document/10469119'
+    },
+    {
+      year: '2023',
+      title: 'Enhancing Real-Time Human Tracking using YOLONAS‑DeepSort Fusion Models',
+      venue: 'IEEE Conference',
+      link: 'https://ieeexplore.ieee.org/document/10394864'
+    }
   ];
 
   const automations = [
     {
-      title: "AI Email Assistant",
-      description: "Intelligent email processing with OpenAI GPT-4 analysis, automatic task extraction, and smart reply generation",
-      tags: ["n8n", "AI", "OpenAI GPT-4", "Email Automation", "Task Management"],
-      image: emailSummarizerImage,
-      template: "https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%203.json",
+      title: 'AI Email Assistant',
+      description: 'Intelligent email processing with GPT-4 analysis and task extraction',
+      technologies: 'n8n, OpenAI GPT-4, Email Processing',
+      template: 'https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%203.json',
+      image: emailSummarizerImage
     },
     {
-      title: "Email Expense Auto-Processor",
-      description: "Automated expense tracking and categorization from email receipts using n8n workflows",
-      tags: ["n8n", "Automation", "Email Processing", "Expense Tracking"],
-      image: emailExpenseAutoImage,
-      template: "https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%205.json",
-    },
+      title: 'Email Expense Processor',
+      description: 'Automated expense tracking and categorization from email receipts',
+      technologies: 'n8n, Automation, Expense Tracking',
+      template: 'https://github.com/Chaitanyakota9/portfolio-website/blob/main/My%20workflow%205.json',
+      image: emailExpenseAutoImage
+    }
   ];
 
+  const navigation = [
+    { id: 'about', label: 'About' },
+    { id: 'portfolio', label: 'Projects' },
+    { id: 'research', label: 'Publications' },
+    { id: 'automations', label: 'Automations' },
+    { id: 'contact', label: 'Contact' }
+  ];
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      setCurrentSection(sectionId);
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white text-neutral-900 transition dark:bg-neutral-950 dark:text-white">
-      {/* Top bar */}
-      <div className="sticky top-0 z-40 border-b bg-white/70 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/70">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDarkMode 
+        ? 'bg-neutral-900 text-neutral-100' 
+        : 'bg-white text-neutral-900'
+    }`}>
+      {/* Header */}
+      <header className={`border-b transition-colors duration-300 ${
+        isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+      }`}>
         <Container>
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-fuchsia-600 font-black text-white shadow-md text-sm sm:text-base">CK</div>
-              <span className="hidden sm:block text-sm font-medium opacity-70">AI masters student @ Uni Passau, Germany</span>
-              <span className="sm:hidden text-xs font-medium opacity-70">AI Student</span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-6 sm:py-8 gap-4">
+            <div>
+              <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-display font-semibold tracking-tight transition-colors duration-300 ${
+                isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+              }`}>
+                Chaitanya
+              </h1>
+              <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-display font-semibold tracking-tight transition-colors duration-300 -mt-2 ${
+                isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+              }`}>
+                Kota
+              </h1>
             </div>
-            <div className="flex items-center gap-1 sm:gap-3">
-              <a href="#projects" className="rounded-xl border px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm hover:bg-neutral-50 dark:hover:bg-neutral-900">Projects</a>
-              <a href="#research" className="hidden sm:block rounded-xl border px-3 py-1.5 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-900">Research</a>
-              <a href="#contact" className="rounded-xl border px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm hover:bg-neutral-50 dark:hover:bg-neutral-900">Contact</a>
-              <button onClick={() => setDark(!dark)} className="rounded-xl border px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm hover:bg-neutral-50 dark:hover:bg-neutral-900" aria-label="Toggle theme">
-                {dark ? "☀️" : "🌙"}
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <div className="flex-1 sm:flex-none sm:text-right">
+                <h2 className={`text-base sm:text-lg lg:text-xl font-light transition-colors duration-300 ${
+                  isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                }`}>
+                  AI & Deep Learning Engineer
+                </h2>
+                <p className={`text-xs sm:text-sm mt-1 transition-colors duration-300 ${
+                  isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
+                }`}>
+                  M.Sc. Student, University of Passau
+                </p>
+                <p className={`text-xs mt-1 transition-colors duration-300 ${
+                  isDarkMode ? 'text-neutral-500' : 'text-neutral-400'
+                }`}>
+                  Seeking 3-6 month internship in Germany
+                </p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {['Python', 'PyTorch', 'OpenCV', 'FastAPI', 'Docker', 'TypeScript'].map((skill) => (
+                    <span key={skill} className={`px-2 py-1 text-xs rounded-full transition-colors duration-300 ${
+                      isDarkMode 
+                        ? 'bg-neutral-800 text-neutral-300' 
+                        : 'bg-neutral-100 text-neutral-600'
+                    }`}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-lg transition-colors duration-300 flex-shrink-0 ${
+                  isDarkMode 
+                    ? 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700' 
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                }`}
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
             </div>
           </div>
         </Container>
-      </div>
-
-      {/* Hero */}
-      <header className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-40 -top-32 h-96 w-96 rounded-full bg-gradient-to-br from-rose-500/30 to-fuchsia-600/30 blur-3xl" />
-        <Container>
-          <div className="grid items-center gap-8 py-12 sm:gap-10 sm:py-16 lg:py-24 sm:grid-cols-2">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="order-2 sm:order-1">
-              <p className="text-sm font-semibold tracking-widest text-rose-500">Hi folks! I'm Chaitanya</p>
-              <h1 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-                AI & Deep Learning <span className="opacity-80">Engineer</span>
-              </h1>
-              <p className="mt-4 max-w-xl text-sm sm:text-base opacity-80">
-                M.Sc. Artificial Intelligence (Uni Passau, Germany)
-              </p>
-              <p className="mt-2 max-w-xl text-sm sm:text-base opacity-70">
-                I design intelligent computer vision & NLP systems with real-world applications.
-              </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <a href="mailto:chaitanya.kota24@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-xl bg-rose-500 px-4 py-2 text-white shadow-md transition hover:translate-y-[-2px] text-sm sm:text-base">
-                  <Mail size={16} className="sm:w-[18px] sm:h-[18px]" /> Let's Talk
-                </a>
-                <a href="https://github.com/Chaitanyakota9" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2 transition hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm sm:text-base">
-                  <Github size={16} className="sm:w-[18px] sm:h-[18px]" /> View Projects
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Profile Photo */}
-            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.1 }} className="order-1 sm:order-2 relative mx-auto h-48 w-48 overflow-hidden rounded-2xl border shadow-2xl sm:h-64 sm:w-64 lg:h-80 lg:w-80">
-              <img 
-                src={photo} 
-                alt="Chaitanya Kota" 
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute -right-8 -top-8 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-fuchsia-500/40 blur-2xl" />
-              <div className="absolute -bottom-8 -left-8 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-rose-500/40 blur-2xl" />
-            </motion.div>
-          </div>
-        </Container>
-        <div className="border-y bg-neutral-50 py-3 text-center text-xs sm:text-sm dark:border-neutral-800 dark:bg-neutral-900">
-          <Container>
-            <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 lg:gap-4">
-              {"PostgreSQL + Machine Learning + Deep Learning + FastAPI + NLP + Computer Vision".split(" + ").map((item) => (
-                <span key={item} className="font-medium">{item}</span>
-              ))}
-            </div>
-          </Container>
-        </div>
-        
-        {/* Internship Banner */}
-        <div className="bg-gradient-to-r from-rose-500 to-fuchsia-600 py-3 text-center text-white">
-          <Container>
-            <div className="flex items-center justify-center gap-2">
-              <Star size={16} />
-              <span className="text-sm font-semibold">Currently seeking 3-6 month internship in Germany</span>
-              <span className="text-xs opacity-90">• Available immediately • EU-based • German work permit</span>
-            </div>
-          </Container>
-        </div>
       </header>
 
-      {/* About */}
-      <section className="py-12 sm:py-16 lg:py-24">
-        <Container>
-          <SectionTitle kicker="About" title="Building things that learn & ship" />
-          <div className="mx-auto max-w-3xl text-center text-base sm:text-lg opacity-90 px-4">
-            I'm a Master's student in Artificial Intelligence at the University of Passau, Germany, with hands-on experience in Computer Vision, NLP, and intelligent automation. My research on real-time tracking and action recognition has been published in IEEE. I thrive in collaborative environments and have successfully delivered production-ready ML systems. Currently seeking an internship in Germany where I can apply these skills to industry-scale problems while contributing to innovative AI solutions.
-          </div>
-        </Container>
-      </section>
-
-      {/* Tools */}
-      <section className="border-y py-8 sm:py-12 dark:border-neutral-800">
-        <Container>
-          <SectionTitle kicker="Stack" title="Tools I work with" />
-          <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {tools.map((category) => (
-              <div key={category.category} className="space-y-3">
-                <h3 className="text-sm font-semibold text-rose-500 uppercase tracking-wider">{category.category}</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {category.skills.map((skill) => (
-                    <div key={skill} className="flex items-center justify-center rounded-xl border p-2 text-xs font-medium opacity-80 dark:border-neutral-800">
-                      {skill}
-                    </div>
+      <div className="flex flex-col lg:flex-row h-screen">
+        {/* Mobile Navigation Header */}
+        <div className="lg:hidden">
+          <div className={`border-b transition-colors duration-300 ${
+            isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+          }`}>
+            <Container>
+              <div className="py-4">
+                <div className="flex flex-wrap gap-4 justify-center">
+                  {navigation.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`px-4 py-2 rounded-lg text-sm font-display font-medium transition-all duration-300 ${
+                        currentSection === item.id 
+                          ? (isDarkMode 
+                              ? 'bg-neutral-700 text-neutral-100' 
+                              : 'bg-neutral-200 text-neutral-900')
+                          : (isDarkMode 
+                              ? 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800' 
+                              : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100')
+                      }`}
+                    >
+                      {item.label}
+                    </button>
                   ))}
                 </div>
               </div>
-            ))}
+            </Container>
           </div>
-        </Container>
-      </section>
+        </div>
 
-      {/* Research */}
-      <section id="research" className="py-12 sm:py-16 lg:py-24">
-        <Container>
-          <SectionTitle kicker="Research" title="Peer‑reviewed papers" />
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-            <article className="group rounded-2xl border p-4 sm:p-6 transition hover:-translate-y-1 hover:shadow-md dark:border-neutral-800">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-rose-500">2023</div>
-              <h3 className="text-lg sm:text-xl font-bold">Enhancing Real-Time Human Tracking using YOLONAS‑DeepSort Fusion Models</h3>
-              <p className="mt-2 text-sm opacity-80">Enhanced YOLO-NAS with DeepSORT for multi-human tracking in crowded environments (IEEE 2023).</p>
-              <a className="mt-3 inline-flex items-center gap-2 text-sm text-rose-500" href="https://ieeexplore.ieee.org/document/10394864" target="_blank" rel="noreferrer">
-                Read on IEEE Xplore <ExternalLink size={16} />
-              </a>
-            </article>
-            <article className="group rounded-2xl border p-4 sm:p-6 transition hover:-translate-y-1 hover:shadow-md dark:border-neutral-800">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-rose-500">2024</div>
-              <h3 className="text-lg sm:text-xl font-bold">Action Recognition for Intelligent Surveillance using LRCN with Attention Mechanisms</h3>
-              <p className="mt-2 text-sm opacity-80">Developed LRCN with attention mechanisms for intelligent surveillance action recognition (IEEE 2024).</p>
-              <a className="mt-3 inline-flex items-center gap-2 text-sm text-rose-500" href="https://ieeexplore.ieee.org/document/10469119" target="_blank" rel="noreferrer">
-                Read on IEEE Xplore <ExternalLink size={16} />
-              </a>
-            </article>
+        {/* Desktop Sidebar Navigation */}
+        <aside className={`hidden lg:block w-64 border-r h-screen sticky top-0 transition-colors duration-300 ${
+          isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+        }`}>
+          {/* Scroll Progress Indicator */}
+          <div className={`absolute top-0 left-0 w-1 h-full transition-colors duration-300 ${
+            isDarkMode ? 'bg-neutral-700' : 'bg-neutral-200'
+          }`}>
+            <div 
+              className={`w-full transition-all duration-300 ${
+                isDarkMode ? 'bg-neutral-400' : 'bg-neutral-600'
+              }`}
+              style={{ height: `${scrollProgress}%` }}
+            ></div>
           </div>
-        </Container>
-      </section>
+          
+          <Container className="max-w-none px-8 py-12">
+            <nav className="space-y-8">
+              {navigation.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`block text-left font-display font-medium transition-colors duration-300 ${
+                    currentSection === item.id 
+                      ? (isDarkMode ? 'text-neutral-100' : 'text-neutral-900')
+                      : (isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900')
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+            
+            <div className={`mt-16 pt-8 border-t transition-colors duration-300 ${
+              isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+            }`}>
+              <div className="space-y-3">
+                <a 
+                  href="mailto:chaitanya.kota24@gmail.com" 
+                  className={`block text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  chaitanya.kota24@gmail.com
+                </a>
+                <a 
+                  href="https://github.com/Chaitanyakota9" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className={`block text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  GitHub
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/chaitanya-kota-451427310/" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className={`block text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  LinkedIn
+                </a>
+              </div>
+              
+              <div className="mt-8 space-y-2">
+                <a 
+                  href="/cv-en.pdf" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className={`block text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  CV (English)
+                </a>
+                <a 
+                  href="/cv-de.pdf" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className={`block text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  Lebenslauf (Deutsch)
+                </a>
+              </div>
+            </div>
+          </Container>
+        </aside>
 
-      {/* Projects */}
-      <section id="projects" className="border-y py-12 sm:py-16 lg:py-24 dark:border-neutral-800">
-        <Container>
-          <SectionTitle kicker="Projects" title="Showcase" />
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p, idx) => (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative overflow-hidden rounded-2xl border p-4 sm:p-5 transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800"
-              >
-                <div className="mb-4 h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700">
-                  <img 
-                    src={p.image} 
-                    alt={p.title}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto h-screen lg:h-screen">
+          {/* About Section */}
+          <PageSection id="about">
+            <Container>
+              <div className="max-w-4xl">
+                <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-12 transition-colors duration-300 ${
+                  isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                }`}>
+                  About
+                </h2>
+                
+                <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+                  <div className="lg:col-span-2 space-y-6">
+                    <p className={`text-lg leading-relaxed transition-colors duration-300 ${
+                      isDarkMode ? 'text-neutral-300' : 'text-neutral-600'
+                    }`}>
+                      I'm an AI Engineer and Master's student specializing in Computer Vision and Machine Learning 
+                      at the University of Passau, Germany. I build enterprise-grade intelligent systems that solve 
+                      real-world problems using cutting-edge technologies like SAM, YOLOv8, CLIP, PyTorch, and 
+                      full-stack development with comprehensive monitoring and CI/CD pipelines.
+                    </p>
+                    
+                    <p className={`text-lg leading-relaxed transition-colors duration-300 ${
+                      isDarkMode ? 'text-neutral-300' : 'text-neutral-600'
+                    }`}>
+                      My work spans from developing enterprise-grade multimodal AI platforms with real-time monitoring 
+                      to creating 95% accurate license plate recognition systems and AI-powered image labeling pipelines 
+                      that reduce annotation time by 80%. I've published research in IEEE conferences on real-time 
+                      tracking and action recognition, demonstrating my expertise in production-ready ML systems with 
+                      comprehensive DevOps practices.
+                    </p>
+                    
+                    <p className={`text-lg leading-relaxed transition-colors duration-300 ${
+                      isDarkMode ? 'text-neutral-300' : 'text-neutral-600'
+                    }`}>
+                      I'm passionate about applying AI to solve complex challenges and am open to collaborating 
+                      on innovative projects that push the boundaries of what's possible with machine learning.
+                    </p>
+                    
+                    <div className="pt-8">
+                      <h3 className={`text-xl font-display font-medium mb-6 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                      }`}>Technical Skills</h3>
+                      
+                      {/* AI/ML & Computer Vision */}
+                      <div className="mb-8">
+                        <h4 className={`font-medium mb-4 text-sm uppercase tracking-wide transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                        }`}>AI/ML & Computer Vision</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {[
+                            { name: 'Python', icon: Terminal, color: 'bg-blue-500' },
+                            { name: 'PyTorch', icon: Brain, color: 'bg-orange-500' },
+                            { name: 'YOLOv8', icon: Eye, color: 'bg-red-500' },
+                            { name: 'OpenCV', icon: Cpu, color: 'bg-green-500' },
+                            { name: 'TensorFlow', icon: Brain, color: 'bg-yellow-500' },
+                            { name: 'Object Detection', icon: Eye, color: 'bg-purple-500' },
+                            { name: 'Image Segmentation', icon: Eye, color: 'bg-pink-500' },
+                            { name: 'Real-time Processing', icon: Zap, color: 'bg-indigo-500' },
+                            { name: 'Few-shot Learning', icon: Brain, color: 'bg-teal-500' },
+                            { name: 'Multi-modal AI', icon: Brain, color: 'bg-indigo-600' },
+                            { name: 'Model Integration', icon: Layers, color: 'bg-purple-600' }
+                          ].map((skill, index) => (
+                            <motion.div
+                              key={skill.name}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="group relative"
+                            >
+                              <div className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                isDarkMode 
+                                  ? 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700' 
+                                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                              }`}>
+                                {skill.name}
+                              </div>
+                              {/* Hover tooltip with icon */}
+                              <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 ${
+                                isDarkMode ? 'bg-neutral-700 text-neutral-100' : 'bg-neutral-900 text-white'
+                              }`}>
+                                <div className="flex items-center gap-2">
+                                  <skill.icon size={16} className={skill.color.replace('bg-', 'text-')} />
+                                  {skill.name}
+                                </div>
+                                <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent ${
+                                  isDarkMode ? 'border-t-neutral-700' : 'border-t-neutral-900'
+                                }`}></div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Backend & Deployment */}
+                      <div>
+                        <h4 className={`font-medium mb-4 text-sm uppercase tracking-wide transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                        }`}>Backend & Deployment</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {[
+                            { name: 'FastAPI', icon: Server, color: 'bg-green-600' },
+                            { name: 'Django', icon: Server, color: 'bg-green-700' },
+                            { name: 'Node.js', icon: Code, color: 'bg-green-500' },
+                            { name: 'TypeScript', icon: Code, color: 'bg-blue-600' },
+                            { name: 'Docker', icon: ContainerIcon, color: 'bg-blue-600' },
+                            { name: 'AWS', icon: Globe, color: 'bg-orange-500' },
+                            { name: 'PostgreSQL', icon: Database, color: 'bg-blue-700' },
+                            { name: 'Prometheus', icon: Server, color: 'bg-red-500' },
+                            { name: 'Grafana', icon: Eye, color: 'bg-orange-600' },
+                            { name: 'GitHub Actions', icon: Zap, color: 'bg-gray-600' },
+                            { name: 'CI/CD', icon: Zap, color: 'bg-purple-600' },
+                            { name: 'n8n Workflows', icon: Zap, color: 'bg-red-600' },
+                            { name: 'React', icon: Code, color: 'bg-blue-500' }
+                          ].map((skill, index) => (
+                            <motion.div
+                              key={skill.name}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: (index + 8) * 0.1 }}
+                              className="group relative"
+                            >
+                              <div className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                isDarkMode 
+                                  ? 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700' 
+                                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                              }`}>
+                                {skill.name}
+                              </div>
+                              {/* Hover tooltip with icon */}
+                              <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 ${
+                                isDarkMode ? 'bg-neutral-700 text-neutral-100' : 'bg-neutral-900 text-white'
+                              }`}>
+                                <div className="flex items-center gap-2">
+                                  <skill.icon size={16} className={skill.color.replace('bg-', 'text-')} />
+                                  {skill.name}
+                                </div>
+                                <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent ${
+                                  isDarkMode ? 'border-t-neutral-700' : 'border-t-neutral-900'
+                                }`}></div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className={`aspect-[3/4] rounded-lg overflow-hidden transition-colors duration-300 ${
+                      isDarkMode ? 'bg-neutral-800' : 'bg-neutral-100'
+                    }`}>
+                      <img 
+                        src={photo} 
+                        alt="Chaitanya Kota"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    
+                    <div className={`mt-6 space-y-2 text-sm transition-colors duration-300 ${
+                      isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        <MapPin size={16} />
+                        <span>Passau, Germany</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="mb-2 text-base sm:text-lg font-bold">{p.title}</h3>
-                <div className="mb-3 space-y-1 text-xs opacity-80">
-                  <p><span className="font-semibold">Problem:</span> {p.problem}</p>
-                  <p><span className="font-semibold">Solution:</span> {p.solution}</p>
-                  <p><span className="font-semibold">Impact:</span> {p.impact}</p>
-                </div>
-                <div className="mb-4 flex flex-wrap gap-1 sm:gap-2">
-                  {p.tags.map((t) => (
-                    <Tag key={t}>{t}</Tag>
+              </div>
+            </Container>
+          </PageSection>
+
+          {/* Portfolio Section */}
+          <PageSection id="portfolio">
+            <Container>
+              <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-12 transition-colors duration-300 ${
+                isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+              }`}>
+                Projects
+              </h2>
+              <div className="space-y-16 lg:space-y-24">
+                {projects.map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+                    >
+                      <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+                        <div className="aspect-[4/3] rounded-lg overflow-hidden bg-neutral-100">
+                          <img 
+                            src={project.image} 
+                            alt={project.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                        <div>
+                          <div className={`text-sm mb-2 transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
+                          }`}>
+                            {project.subtitle} • {project.year}
+                          </div>
+                          <h3 className={`text-2xl lg:text-3xl font-display font-medium mb-4 transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                          }`}>
+                            {project.title}
+                          </h3>
+                          <p className={`text-lg leading-relaxed mb-6 transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                          }`}>
+                            {project.description}
+                          </p>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <div>
+                            <span className={`text-sm font-medium transition-colors duration-300 ${
+                              isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                            }`}>Technologies: </span>
+                            <span className={`text-sm transition-colors duration-300 ${
+                              isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                            }`}>{project.technologies}</span>
+                          </div>
+                          <div>
+                            <span className={`text-sm font-medium transition-colors duration-300 ${
+                              isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                            }`}>Impact: </span>
+                            <span className={`text-sm transition-colors duration-300 ${
+                              isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                            }`}>{project.impact}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex gap-4 pt-4">
+                          <a
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 transition-colors"
+                          >
+                            GitHub <ExternalLink size={16} />
+                          </a>
+                          {project.demoLink && (
+                            <a
+                              href={project.demoLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 transition-colors"
+                            >
+                              Live Demo <ExternalLink size={16} />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
-                <div className="flex gap-2">
-                  {p.demoLink && (
-                    <a
-                      href={p.demoLink}
+              </Container>
+            </PageSection>
+
+          {/* Research Section */}
+          <PageSection id="research">
+              <Container>
+                <div className="max-w-4xl">
+                  <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-12 transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                  }`}>
+                    Publications
+                  </h2>
+                  <div className="space-y-12">
+                    {research.map((paper, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className="border-b border-neutral-200 pb-8"
+                      >
+                        <div className="flex items-start justify-between mb-4">
+                          <div className={`text-sm transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
+                          }`}>{paper.year}</div>
+                          <a
+                            href={paper.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={`inline-flex items-center gap-2 text-sm transition-colors duration-300 ${
+                              isDarkMode 
+                                ? 'text-neutral-100 hover:text-neutral-300' 
+                                : 'text-neutral-900 hover:text-neutral-600'
+                            }`}
+                          >
+                            IEEE Xplore <ExternalLink size={16} />
+                          </a>
+                        </div>
+                        <h3 className={`text-xl lg:text-2xl font-light mb-3 transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                        }`}>
+                          {paper.title}
+                        </h3>
+                        <p className={`transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                        }`}>{paper.venue}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </Container>
+            </PageSection>
+
+          {/* Automations Section */}
+          <PageSection id="automations">
+              <Container>
+                <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-12 transition-colors duration-300 ${
+                  isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                }`}>
+                  Workflow Automations
+                </h2>
+                <div className="grid lg:grid-cols-2 gap-12">
+                  {automations.map((automation, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className="space-y-6"
+                    >
+                      <div className="aspect-[4/3] rounded-lg overflow-hidden bg-neutral-100">
+                        <img 
+                          src={automation.image} 
+                          alt={automation.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
+                      <div>
+                        <h3 className={`text-xl lg:text-2xl font-light mb-3 transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                        }`}>
+                          {automation.title}
+                        </h3>
+                        <p className={`mb-4 transition-colors duration-300 ${
+                          isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                        }`}>
+                          {automation.description}
+                        </p>
+                        <div className="mb-6">
+                          <span className={`text-sm font-medium transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                          }`}>Technologies: </span>
+                          <span className={`text-sm transition-colors duration-300 ${
+                            isDarkMode ? 'text-neutral-200' : 'text-neutral-600'
+                          }`}>{automation.technologies}</span>
+                        </div>
+                        <a
+                          href={automation.template}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`inline-flex items-center gap-2 text-sm transition-colors duration-300 ${
+                            isDarkMode 
+                              ? 'text-neutral-100 hover:text-neutral-300' 
+                              : 'text-neutral-900 hover:text-neutral-600'
+                          }`}
+                        >
+                          View Template <ExternalLink size={16} />
+                        </a>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </Container>
+            </PageSection>
+
+          {/* Contact Section */}
+          <PageSection id="contact">
+            <Container>
+              <div className="max-w-4xl mx-auto text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-6 transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+                  }`}>
+                    Let's Connect
+                  </h2>
+                  
+                  <p className={`text-lg leading-relaxed mb-12 max-w-2xl mx-auto transition-colors duration-300 ${
+                    isDarkMode ? 'text-neutral-300' : 'text-neutral-600'
+                  }`}>
+                    I'm always interested in discussing AI, machine learning, and innovative projects. 
+                    Feel free to reach out for collaborations or just to say hello!
+                  </p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-3xl mx-auto">
+                    {/* Email */}
+                    <motion.a
+                      href="mailto:chaitanya.kota24@gmail.com"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <Mail size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        Email
+                      </span>
+                    </motion.a>
+
+                    {/* GitHub */}
+                    <motion.a
+                      href="https://github.com/Chaitanyakota9"
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
                     >
-                      View Demo <ExternalLink size={16} />
-                    </a>
-                  )}
-                  <a
-                    href={p.githubLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
-                  >
-                    View on GitHub <ArrowRight size={16} />
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="mt-8 flex justify-center">
-            <a href="https://github.com/Chaitanyakota9" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm transition hover:bg-neutral-50 dark:hover:bg-neutral-900">
-              <Github size={18} /> View all projects
-            </a>
-          </div>
-        </Container>
-      </section>
+                      <Github size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        GitHub
+                      </span>
+                    </motion.a>
 
-      {/* Automations */}
-      <section className="py-12 sm:py-16 lg:py-24">
-        <Container>
-          <SectionTitle kicker="Smart Automations" title="Workflow Magic" />
-        <div className="mx-auto max-w-3xl text-center text-base sm:text-lg opacity-90 px-4 mb-8">
-          Built n8n-based workflow automations (email assistant, expense tracking) showing ability to integrate LLMs with real-world productivity apps.
-        </div>
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {automations.map((a, idx) => (
-              <motion.div
-                key={a.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative overflow-hidden rounded-2xl border p-4 sm:p-5 transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800"
-              >
-                <div className="mb-4 h-32 sm:h-36 w-full rounded-xl overflow-hidden bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700">
-                  <img 
-                    src={a.image} 
-                    alt={a.title}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="mb-2 text-base sm:text-lg font-bold">{a.title}</h3>
-                <p className="mb-3 text-sm opacity-80">{a.description}</p>
-                <div className="mb-4 flex flex-wrap gap-1 sm:gap-2">
-                  {a.tags.map((t) => (
-                    <Tag key={t}>{t}</Tag>
-                  ))}
-                </div>
-                <a
-                  href={a.template}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-rose-500 hover:text-rose-600 transition"
-                >
-                  View Template <ExternalLink size={16} />
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </Container>
-      </section>
+                    {/* LinkedIn */}
+                    <motion.a
+                      href="https://www.linkedin.com/in/chaitanya-kota-451427310/"
+                      target="_blank"
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <Linkedin size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        LinkedIn
+                      </span>
+                    </motion.a>
 
-      {/* Contact */}
-      <section id="contact" className="py-12 sm:py-16 lg:py-24">
-        <Container>
-          <SectionTitle kicker="Get in touch" title="Let's build something" />
-          <div className="mx-auto flex max-w-lg flex-col items-center gap-4 text-center px-4">
-            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
-              <a href="mailto:chaitanya.kota24@gmail.com" className="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2 text-white shadow-md transition hover:translate-y-[-2px] text-sm sm:text-base">
-                <Mail size={16} className="sm:w-[18px] sm:h-[18px]" /> chaitanya.kota24@gmail.com
-              </a>
-              <a href="https://github.com/Chaitanyakota9" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 transition hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm sm:text-base">
-                <Github size={16} className="sm:w-[18px] sm:h-[18px]" /> GitHub
-              </a>
-              <a href="https://www.linkedin.com/in/chaitanya-kota-451427310/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 transition hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm sm:text-base">
-                <Linkedin size={16} className="sm:w-[18px] sm:h-[18px]" /> LinkedIn
-              </a>
-            </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
-              <a href="/cv-en.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 transition hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm">
-                <Download size={16} /> Download CV (EN)
-              </a>
-              <a href="/cv-de.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 transition hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm">
-                <Download size={16} /> Lebenslauf (DE)
-              </a>
-            </div>
-            <div className="flex items-center gap-2 text-sm opacity-70">
-              <MapPin size={14} />
-              <span>Passau, Germany • Available for relocation</span>
-            </div>
-            <p className="mt-2 text-xs sm:text-sm opacity-70">© {new Date().getFullYear()} Chaitanya Kota · All rights reserved.</p>
-          </div>
-        </Container>
-      </section>
+                    {/* Mastodon */}
+                    <motion.a
+                      href="https://mastodon.social/@kota7"
+                      target="_blank"
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <MessageCircle size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        Mastodon
+                      </span>
+                    </motion.a>
+
+                    {/* CV Download */}
+                    <motion.a
+                      href="/cv-en.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <Download size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        CV
+                      </span>
+                    </motion.a>
+                  </div>
+
+                  <div className={`mt-12 pt-8 border-t transition-colors duration-300 ${
+                    isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+                  }`}>
+                    <p className={`text-sm transition-colors duration-300 ${
+                      isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
+                    }`}>
+                      © 2024 Chaitanya Kota. Built with React & Tailwind CSS.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </Container>
+          </PageSection>
+
+        </main>
+      </div>
     </div>
   );
 }
