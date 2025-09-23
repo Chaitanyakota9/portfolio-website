@@ -545,11 +545,15 @@ export default function Portfolio() {
                       className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
                     >
                       <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                        <div className="aspect-[4/3] rounded-lg overflow-hidden bg-neutral-100">
+                        <div className={`rounded-lg overflow-hidden transition-colors duration-300 ${
+                          isDarkMode ? 'bg-neutral-800' : 'bg-neutral-100'
+                        }`}>
                           <img 
                             src={project.image} 
                             alt={project.title}
-                            className="w-full h-full object-cover"
+                            className={`w-full h-auto object-contain ${
+                              project.id === 'multimodal-ai-analyzer' ? 'max-h-64' : 'aspect-[4/3] object-cover'
+                            }`}
                           />
                         </div>
                       </div>
