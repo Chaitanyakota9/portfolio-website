@@ -72,6 +72,18 @@ export default function Portfolio() {
       image: multimodalImage
     },
     {
+      id: 'fitness-tracker',
+      title: 'Fitness Tracker',
+      subtitle: 'Full-Stack Web Application',
+      year: '2024',
+      description: 'Comprehensive fitness tracking application with automated workflows, CI/CD pipelines, and gamified development experience. Features workout tracking, body metrics monitoring, and automated motivation system.',
+      technologies: 'Node.js, Express, MongoDB, JavaScript, HTML/CSS, GitHub Actions, CI/CD',
+      impact: 'Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring',
+      githubLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
+      demoLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
+      image: multimodalImage
+    },
+    {
       id: 'chatbot',
       title: 'Conversational AI',
       subtitle: 'Natural Language Processing',
