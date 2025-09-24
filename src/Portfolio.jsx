@@ -8,6 +8,7 @@ import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
 import emailSummarizerImage from '../email summarizer.png';
 import multimodalImage from '../multimodel.png';
+import fitnessTrackerImage from '../fitnesstrackerimg.jpg';
 
 // Utility components
 const Container = ({ children, className = "" }) => (
@@ -81,7 +82,7 @@ export default function Portfolio() {
       impact: 'Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring',
       githubLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
       demoLink: 'https://fitness-tracker-5o6v.onrender.com',
-      image: multimodalImage
+      image: fitnessTrackerImage
     },
     {
       id: 'chatbot',
