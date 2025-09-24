@@ -8,7 +8,7 @@ import hutaoBotImage from '../chatbot.jpg';
 import emailExpenseAutoImage from '../email expense auto.png';
 import emailSummarizerImage from '../email summarizer.png';
 import multimodalImage from '../multimodel.png';
-import fitnessTrackerImage from '../fitnesstrackerimg.jpg';
+// import fitnessTrackerImage from '../fitnesstrackerimg.jpg';
 
 // Utility components
 const Container = ({ children, className = "" }) => (
@@ -82,7 +82,7 @@ export default function Portfolio() {
       impact: 'Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring',
       githubLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
       demoLink: 'https://fitness-tracker-5o6v.onrender.com',
-      image: fitnessTrackerImage
+      image: '/fitness-tracker.jpg'
     },
     {
       id: 'chatbot',
@@ -342,7 +342,7 @@ export default function Portfolio() {
               
               <div className="mt-8 space-y-2">
                 <a 
-                  href="/Resume copy.pdf" 
+                  href="/Resume.pdf" 
                   target="_blank" 
                   rel="noreferrer" 
                   className={`block text-sm transition-colors duration-300 ${
@@ -352,7 +352,7 @@ export default function Portfolio() {
                   CV (English)
                 </a>
                 <a 
-                  href="/Deutsch-Resume copy.pdf" 
+                  href="/Deutsch-Resume.pdf" 
                   target="_blank" 
                   rel="noreferrer" 
                   className={`block text-sm transition-colors duration-300 ${
@@ -872,7 +872,7 @@ export default function Portfolio() {
 
                     {/* CV Download - English */}
                     <motion.a
-                      href="/Resume copy.pdf"
+                      href="/Resume.pdf"
                       target="_blank"
                       rel="noreferrer"
                       whileHover={{ scale: 1.05 }}
@@ -895,7 +895,7 @@ export default function Portfolio() {
 
                     {/* CV Download - German */}
                     <motion.a
-                      href="/Deutsch-Resume copy.pdf"
+                      href="/Deutsch-Resume.pdf"
                       target="_blank"
                       rel="noreferrer"
                       whileHover={{ scale: 1.05 }}
