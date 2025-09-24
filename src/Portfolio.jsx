@@ -80,6 +80,7 @@ export default function Portfolio() {
       technologies: 'Node.js, Express, MongoDB, JavaScript, HTML/CSS, GitHub Actions, CI/CD',
       impact: 'Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring',
       githubLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
+      demoLink: 'https://fitness-tracker-5o6v.onrender.com',
       image: multimodalImage
     },
     {
@@ -200,12 +201,12 @@ export default function Portfolio() {
                   isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
                 }`}>
                   AI & Deep Learning Engineer
-                </h2>
+              </h2>
                 <p className={`text-xs sm:text-sm mt-1 transition-colors duration-300 ${
                   isDarkMode ? 'text-neutral-400' : 'text-neutral-500'
                 }`}>
-                  M.Sc. Student, University of Passau
-                </p>
+                M.Sc. Student, University of Passau
+              </p>
                 <p className={`text-xs mt-1 transition-colors duration-300 ${
                   isDarkMode ? 'text-neutral-500' : 'text-neutral-400'
                 }`}>
@@ -540,14 +541,14 @@ export default function Portfolio() {
 
           {/* Portfolio Section */}
           <PageSection id="portfolio">
-            <Container>
+              <Container>
               <h2 className={`text-3xl lg:text-4xl font-display font-medium mb-12 transition-colors duration-300 ${
                 isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
               }`}>
                 Projects
               </h2>
               <div className="space-y-16 lg:space-y-24">
-                {projects.map((project, index) => (
+                  {projects.map((project, index) => (
                     <motion.div
                       key={project.id}
                       initial={{ opacity: 0, y: 40 }}
@@ -757,7 +758,7 @@ export default function Portfolio() {
 
           {/* Contact Section */}
           <PageSection id="contact">
-            <Container>
+              <Container>
               <div className="max-w-4xl mx-auto text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -890,8 +891,8 @@ export default function Portfolio() {
                         CV
                       </span>
                     </motion.a>
-                  </div>
-
+                      </div>
+                      
                   <div className={`mt-12 pt-8 border-t transition-colors duration-300 ${
                     isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
                   }`}>
@@ -902,9 +903,9 @@ export default function Portfolio() {
                     </p>
                   </div>
                 </motion.div>
-              </div>
-            </Container>
-          </PageSection>
+                </div>
+              </Container>
+            </PageSection>
 
         </main>
       </div>
