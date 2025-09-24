@@ -55,11 +55,6 @@ SRM Institute of Science & Technology, India | CGPA: 9.0/10, Graduated 2024
 • **Impact**: Streamlined image annotation workflows with user-friendly interface  
 • **Tech**: Computer Vision, Python, OpenCV, Machine Learning
 
-**License Plate Recognition System** | 2024  
-• Developed real-time license plate detection system with OCR for text extraction  
-• **Impact**: Vehicle identification and tracking pipeline for real-time processing  
-• **Tech**: Computer Vision, OCR, Real-time Processing, Python
-
 ---
 
 ## Publications

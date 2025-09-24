@@ -341,7 +341,7 @@ export default function Portfolio() {
               
               <div className="mt-8 space-y-2">
                 <a 
-                  href="/cv-en.pdf" 
+                  href="/Resume copy.pdf" 
                   target="_blank" 
                   rel="noreferrer" 
                   className={`block text-sm transition-colors duration-300 ${
@@ -351,7 +351,7 @@ export default function Portfolio() {
                   CV (English)
                 </a>
                 <a 
-                  href="/cv-de.pdf" 
+                  href="/Deutsch-Resume copy.pdf" 
                   target="_blank" 
                   rel="noreferrer" 
                   className={`block text-sm transition-colors duration-300 ${
@@ -869,9 +869,9 @@ export default function Portfolio() {
                       </span>
                     </motion.a>
 
-                    {/* CV Download */}
+                    {/* CV Download - English */}
                     <motion.a
-                      href="/cv-en.pdf"
+                      href="/Resume copy.pdf"
                       target="_blank"
                       rel="noreferrer"
                       whileHover={{ scale: 1.05 }}
@@ -888,7 +888,30 @@ export default function Portfolio() {
                       <span className={`text-sm font-medium transition-colors duration-300 ${
                         isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
                       }`}>
-                        CV
+                        CV (EN)
+                      </span>
+                    </motion.a>
+
+                    {/* CV Download - German */}
+                    <motion.a
+                      href="/Deutsch-Resume copy.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group flex flex-col items-center p-4 sm:p-6 rounded-xl transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-neutral-800 hover:bg-neutral-700' 
+                          : 'bg-neutral-100 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <Download size={24} className={`mb-3 transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`} />
+                      <span className={`text-sm font-medium transition-colors duration-300 ${
+                        isDarkMode ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-600 group-hover:text-neutral-900'
+                      }`}>
+                        CV (DE)
                       </span>
                     </motion.a>
                       </div>
