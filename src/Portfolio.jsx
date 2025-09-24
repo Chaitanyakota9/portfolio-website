@@ -80,7 +80,6 @@ export default function Portfolio() {
       technologies: 'Node.js, Express, MongoDB, JavaScript, HTML/CSS, GitHub Actions, CI/CD',
       impact: 'Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring',
       githubLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
-      demoLink: 'https://github.com/Chaitanyakota9/Fitness-Tracker',
       image: multimodalImage
     },
     {

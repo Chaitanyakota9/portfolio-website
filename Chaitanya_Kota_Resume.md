@@ -35,13 +35,14 @@ SRM Institute of Science & Technology, India | CGPA: 9.0/10, Graduated 2024
 **Multimodal AI Analyzer** | 2025  
 • Built full-stack AI platform integrating SAM, YOLO, and CLIP models with FastAPI backend and React frontend  
 • **Impact**: Enterprise monitoring with Prometheus/Grafana, CI/CD pipeline, production-ready deployment  
-• **Tech**: FastAPI, React, TypeScript, PyTorch, Docker, PostgreSQL
+• **Tech**: FastAPI, React, TypeScript, PyTorch, Docker, PostgreSQL  
+• **GitHub**: [github.com/Chaitanyakota9/multimodal-ai-analyzer](https://github.com/Chaitanyakota9/multimodal-ai-analyzer)
 
 **Fitness Tracker** | 2024  
 • Developed full-stack fitness tracking app with MongoDB backend and responsive frontend  
 • **Impact**: Automated CI/CD workflows, daily motivation system, weekly analytics, database health monitoring  
 • **Tech**: Node.js, Express, MongoDB, JavaScript, HTML/CSS, GitHub Actions  
-• **Demo**: [GitHub Repository](https://github.com/Chaitanyakota9/Fitness-Tracker)
+• **GitHub**: [github.com/Chaitanyakota9/Fitness-Tracker](https://github.com/Chaitanyakota9/Fitness-Tracker)
 
 **Conversational AI (Hu Tao Chatbot)** | 2025  
 • Developed character-based AI chatbot with user authentication and modern web interface  
