@@ -564,6 +564,7 @@ export default function Portfolio() {
                           <img 
                             src={project.image} 
                             alt={project.title}
+                            loading="lazy"
                             className={`w-full h-auto object-contain ${
                               project.id === 'multimodal-ai-analyzer' ? 'max-h-64' : 'aspect-[4/3] object-cover'
                             }`}
@@ -715,6 +716,7 @@ export default function Portfolio() {
                         <img 
                           src={automation.image} 
                           alt={automation.title}
+                          loading="lazy"
                           className="w-full h-full object-cover"
                         />
                       </div>
